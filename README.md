@@ -210,3 +210,22 @@ Ajanı  Ajanı   Ajanı
 Yanımda AI ile yalnız yaşayan yaşlı bireylerin yaşam kalitesini artırmak, ailelerin içini rahatlatmak ve teknolojiyi insan odaklı bir refakat deneyimine dönüştürmek amaçlanmaktadır.
 
 **"Siz yanlarında olamadığınızda, biz oradayız."**
+
+
+# Sprint 1
+
+## Backlog Dağıtma Mantığı
+
+Proje başlangıç aşamasında olduğundan ekibin geçmiş deneyimleri ve ilgi alanları göz önünde bulundurularak backlog dağıtımı yapılmıştır.
+
+## 25.06.2026
+
+### Sprint Board Durumu
+<img width="1512" height="690" alt="image" src="https://github.com/user-attachments/assets/8b0f27fd-1651-4fc4-b917-1e29fd691aeb" />
+
+### Ürün Durumu
+<img width="1917" height="887" alt="image" src="https://github.com/user-attachments/assets/a4e2c8ca-3b57-4f39-9e66-83af30d0200d" />
+
+
+
+
