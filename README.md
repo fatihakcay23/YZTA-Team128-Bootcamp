@@ -224,7 +224,8 @@ Proje başlangıç aşamasında olduğundan ekibin geçmiş deneyimleri ve ilgi 
 <img width="1512" height="690" alt="image" src="https://github.com/user-attachments/assets/8b0f27fd-1651-4fc4-b917-1e29fd691aeb" />
 
 ### Ürün Durumu
-<img width="1917" height="887" alt="image" src="https://github.com/user-attachments/assets/a4e2c8ca-3b57-4f39-9e66-83af30d0200d" />
+<img width="1917" height="1012" alt="image" src="https://github.com/user-attachments/assets/777af316-433e-446e-9390-2c1e51ba52a5" />
+
 
 
 
