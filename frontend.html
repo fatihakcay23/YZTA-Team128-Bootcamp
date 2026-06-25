@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -31,7 +32,8 @@
             height: 100vh;
             overflow: hidden;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            /* DEĞİŞTİ */
             font-size: 24px;
         }
 
@@ -54,7 +56,8 @@
             flex: 1;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: stretch;
+            /* DEĞİŞTİ */
             padding: 20px;
             overflow: hidden;
         }
@@ -62,14 +65,14 @@
         .page {
             display: none;
             width: 100%;
-            max-width: 650px;
+            max-width: none;
+            /* DEĞİŞTİ */
             background: var(--card-bg);
             border-radius: 28px;
             padding: 25px;
             border: 1px solid rgba(255, 255, 255, 0.7);
             box-shadow: 0 15px 35px rgba(148, 163, 184, 0.12);
             height: 100%;
-            max-height: 520px;
             flex-direction: column;
         }
 
@@ -140,31 +143,50 @@
             padding: 0 25px;
         }
 
-        .btn-success { background: var(--success-gradient); color: white; }
-        .btn-neutral { background: #F1F5F9; color: #475569; border: 2px solid #E2E8F0; }
+        .btn-success {
+            background: var(--success-gradient);
+            color: white;
+        }
+
+        .btn-neutral {
+            background: #F1F5F9;
+            color: #475569;
+            border: 2px solid #E2E8F0;
+        }
 
         .chat-container {
+            flex: 1;
             background: #F8FAFC;
             border-radius: 22px;
             padding: 15px;
             border: 1px solid #E2E8F0;
             margin-bottom: 15px;
-            flex: 1;
             overflow-y: auto;
+            min-height: 0;
+            /* kritik fix */
+        }
+
+        .chat-msg {
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 18px;
+            line-height: 1.4;
+
+            display: block;
+            width: fit-content;
+            max-width: 60%;
+
+            word-break: break-word;
+            overflow-wrap: break-word;
         }
 
         .chat-box {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-        }
+            gap: 10px;
 
-        .chat-msg {
-            padding: 14px 18px;
-            border-radius: 20px;
-            max-width: 85%;
-            font-size: 22px;
-            line-height: 1.4;
+            align-items: stretch;
+            /* önemli */
         }
 
         .msg-ai {
@@ -182,22 +204,83 @@
             align-self: flex-end;
         }
 
-        .routine-list { display: flex; flex-direction: column; gap: 15px; overflow-y: auto; flex: 1; }
-        .routine-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 20px; }
-        .routine-item.done { background: #F0FDF4; border-color: #BBF7D0; }
+        .routine-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+            flex: 1;
+        }
 
-        nav { background: #FFFFFF; border-top: 2px solid #E2E8F0; display: flex; width: 100%; height: 100px; }
-        .nav-btn { flex: 1; background: none; border: none; font-size: 20px; font-weight: 700; color: var(--text-muted); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
-        .nav-btn span:first-child { font-size: 32px; }
-        .nav-btn.active { color: var(--brand-color); background: #F0F7FF; border-top: 4px solid var(--brand-color); }
+        .routine-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 20px;
+        }
+
+        .routine-item.done {
+            background: #F0FDF4;
+            border-color: #BBF7D0;
+        }
+
+        nav {
+            width: 140px;
+            background: #FFFFFF;
+            border-right: 2px solid #E2E8F0;
+            border-top: none;
+            /* kaldır */
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            flex: none;
+            background: none;
+            border: none;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 12px;
+        }
+
+        .nav-btn span:first-child {
+            font-size: 32px;
+        }
+
+        .nav-btn.active {
+            color: var(--brand-color);
+            background: #F0F7FF;
+            border-top: 4px solid var(--brand-color);
+        }
 
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
     </style>
 </head>
+
 <body>
 
     <header>
@@ -210,10 +293,11 @@
             <div class="page-title">💬 Refakatçi Sohbeti</div>
             <div class="chat-container" id="chatScroll">
                 <div class="chat-box" id="chatBox">
-                    <div class="chat-msg msg-ai">Merhaba Ahmet Amca, sesini duymak veya senden haber almak çok güzel. Bugün nasılsın?</div>
+                    <div class="chat-msg msg-ai">Merhaba Ahmet Amca, sesini duymak veya senden haber almak çok güzel.
+                        Bugün nasılsın?</div>
                 </div>
             </div>
-            
+
             <!-- Sesli Arayüz Butonu -->
             <button class="btn btn-voice" id="voiceBtn" onclick="toggleVoice()">
                 🎤 <span id="btnText">Konuşmak İçin Basın</span>
@@ -221,7 +305,8 @@
 
             <!-- YAZILI INTERAKTIF ALAN -->
             <div class="text-input-container">
-                <input type="text" id="userInput" class="text-input" placeholder="Buraya yazabilirsiniz..." onkeypress="handleKeyPress(event)">
+                <input type="text" id="userInput" class="text-input" placeholder="Buraya yazabilirsiniz..."
+                    onkeypress="handleKeyPress(event)">
                 <button class="btn btn-send" onclick="sendTextMessage()">Gönder</button>
             </div>
         </div>
@@ -235,7 +320,8 @@
                         <strong style="display:block; font-size:22px;">💊 Tansiyon İlacı</strong>
                         <span style="font-size: 16px; color: var(--text-muted);">Sabah • Saat 09:00</span>
                     </div>
-                    <button class="btn btn-success" style="width:auto; padding: 10px 20px; font-size: 18px;" onclick="takeMed('med1')">İçtim</button>
+                    <button class="btn btn-success" style="width:auto; padding: 10px 20px; font-size: 18px;"
+                        onclick="takeMed('med1')">İçtim</button>
                 </div>
                 <div class="routine-item" id="med2">
                     <div>
@@ -243,8 +329,10 @@
                         <span style="font-size: 16px; color: var(--text-muted);">Akşam • Saat 20:00</span>
                     </div>
                     <div style="display:flex; gap: 8px;">
-                        <button class="btn btn-neutral" style="width:auto; padding: 10px 20px; font-size: 18px;" onclick="simulatePhoto()">Kamerayla Çek</button>
-                        <button class="btn btn-success" style="width:auto; padding: 10px 20px; font-size: 18px;" onclick="takeMed('med2')">İçtim</button>
+                        <button class="btn btn-neutral" style="width:auto; padding: 10px 20px; font-size: 18px;"
+                            onclick="simulatePhoto()">Kamerayla Çek</button>
+                        <button class="btn btn-success" style="width:auto; padding: 10px 20px; font-size: 18px;"
+                            onclick="takeMed('med2')">İçtim</button>
                     </div>
                 </div>
             </div>
@@ -253,31 +341,36 @@
         <!-- 3. SAYFA: DURUM -->
         <div class="page" id="page-durum">
             <div class="page-title">☀️ Günlük Sağlık Kontrolü</div>
-            <div id="checkinCard" style="text-align: center; display: flex; flex-direction: column; gap: 20px; justify-content: center; height: 100%;">
+            <div id="checkinCard"
+                style="text-align: center; display: flex; flex-direction: column; gap: 20px; justify-content: center; height: 100%;">
                 <p style="font-weight: 600; font-size: 26px;">Ahmet Amca, bugün kendini nasıl hissediyorsun?</p>
                 <button class="btn btn-success" onclick="completeCheckin('Harika!')">😊 Çok İyiyim</button>
-                <button class="btn btn-neutral" style="background: #FFFBEB; color: #B45309; border-color: #FDE68A;" onclick="completeCheckin('Biraz halsizim')">😐 Biraz Halsizim</button>
+                <button class="btn btn-neutral" style="background: #FFFBEB; color: #B45309; border-color: #FDE68A;"
+                    onclick="completeCheckin('Biraz halsizim')">😐 Biraz Halsizim</button>
             </div>
         </div>
     </div>
 
     <nav>
-        <button class="nav-btn active" id="nav-sohbet" onclick="switchPage('sohbet')"><span>💬</span><span>Sohbet</span></button>
-        <button class="nav-btn" id="nav-ilaclar" onclick="switchPage('ilaclar')"><span>💊</span><span>İlaçlarım</span></button>
-        <button class="nav-btn" id="nav-durum" onclick="switchPage('durum')"><span>☀️</span><span>Durumum</span></button>
+        <button class="nav-btn active" id="nav-sohbet"
+            onclick="switchPage('sohbet')"><span>💬</span><span>Sohbet</span></button>
+        <button class="nav-btn" id="nav-ilaclar"
+            onclick="switchPage('ilaclar')"><span>💊</span><span>İlaçlarım</span></button>
+        <button class="nav-btn" id="nav-durum"
+            onclick="switchPage('durum')"><span>☀️</span><span>Durumum</span></button>
     </nav>
 
     <script>
-       let isRecording = false;
-       let mediaRecorder = null;
-       let audioChunks = [];
-       let stream = null;
+        let isRecording = false;
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let stream = null;
 
-       const voiceBtn = document.getElementById('voiceBtn');
-       const btnText = document.getElementById('btnText');
-       const chatBox = document.getElementById('chatBox');
-       const chatScroll = document.getElementById('chatScroll');
-       const userInput = document.getElementById('userInput');
+        const voiceBtn = document.getElementById('voiceBtn');
+        const btnText = document.getElementById('btnText');
+        const chatBox = document.getElementById('chatBox');
+        const chatScroll = document.getElementById('chatScroll');
+        const userInput = document.getElementById('userInput');
 
         const API_BASE_URL = "http://127.0.0.1:8000/api";
         function switchPage(pageId) {
@@ -316,109 +409,109 @@
             }
         }
 
-async function toggleVoice() {
+        async function toggleVoice() {
 
-    // KAYDI BAŞLAT
-    if (!isRecording) {
-
-        try {
-
-            stream = await navigator.mediaDevices.getUserMedia({
-                audio: true
-            });
-
-            audioChunks = [];
-
-            mediaRecorder = new MediaRecorder(stream);
-
-            mediaRecorder.ondataavailable = (event) => {
-                if (event.data.size > 0)
-                    audioChunks.push(event.data);
-            };
-
-            mediaRecorder.onstop = async () => {
-
-                const audioBlob = new Blob(audioChunks, {
-                    type: "audio/webm"
-                });
-
-                console.log("Ses Boyutu:", audioBlob.size);
-
-                if (audioBlob.size < 1000) {
-                    addChatMessage("Ses kaydedilemedi.", "ai");
-                    return;
-                }
-
-                const formData = new FormData();
-
-                formData.append(
-                    "file",
-                    audioBlob,
-                    "audio.webm"
-                );
+            // KAYDI BAŞLAT
+            if (!isRecording) {
 
                 try {
 
-                    const response = await fetch(
-                        `${API_BASE_URL}/voice-chat`,
-                        {
-                            method: "POST",
-                            body: formData
+                    stream = await navigator.mediaDevices.getUserMedia({
+                        audio: true
+                    });
+
+                    audioChunks = [];
+
+                    mediaRecorder = new MediaRecorder(stream);
+
+                    mediaRecorder.ondataavailable = (event) => {
+                        if (event.data.size > 0)
+                            audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = async () => {
+
+                        const audioBlob = new Blob(audioChunks, {
+                            type: "audio/webm"
+                        });
+
+                        console.log("Ses Boyutu:", audioBlob.size);
+
+                        if (audioBlob.size < 1000) {
+                            addChatMessage("Ses kaydedilemedi.", "ai");
+                            return;
                         }
-                    );
 
-                    const data = await response.json();
+                        const formData = new FormData();
 
-                    addChatMessage(data.user_transcription, "user");
-                    addChatMessage(data.ai_response, "ai");
+                        formData.append(
+                            "file",
+                            audioBlob,
+                            "audio.webm"
+                        );
 
-                } catch (err) {
+                        try {
+
+                            const response = await fetch(
+                                `${API_BASE_URL}/voice-chat`,
+                                {
+                                    method: "POST",
+                                    body: formData
+                                }
+                            );
+
+                            const data = await response.json();
+
+                            addChatMessage(data.user_transcription, "user");
+                            addChatMessage(data.ai_response, "ai");
+
+                        } catch (err) {
+
+                            console.error(err);
+
+                            addChatMessage(
+                                "Sunucuya bağlanılamadı.",
+                                "ai"
+                            );
+                        }
+
+                        stream.getTracks().forEach(track => track.stop());
+
+                    };
+
+                    mediaRecorder.start();
+
+                    isRecording = true;
+
+                    voiceBtn.classList.add("recording");
+
+                    btnText.innerText = "Dinliyorum...";
+
+                }
+                catch (err) {
 
                     console.error(err);
 
-                    addChatMessage(
-                        "Sunucuya bağlanılamadı.",
-                        "ai"
-                    );
+                    alert("Mikrofona erişim izni verilmedi.");
+
                 }
 
-                stream.getTracks().forEach(track => track.stop());
+            }
 
-            };
+            // KAYDI DURDUR
+            else {
 
-            mediaRecorder.start();
+                isRecording = false;
 
-            isRecording = true;
+                voiceBtn.classList.remove("recording");
 
-            voiceBtn.classList.add("recording");
+                btnText.innerText = "Konuşmak İçin Basın";
 
-            btnText.innerText = "Dinliyorum...";
+                mediaRecorder.stop();
 
-        }
-        catch (err) {
-
-            console.error(err);
-
-            alert("Mikrofona erişim izni verilmedi.");
+            }
 
         }
-
-    }
-
-    // KAYDI DURDUR
-    else {
-
-        isRecording = false;
-
-        voiceBtn.classList.remove("recording");
-
-        btnText.innerText = "Konuşmak İçin Basın";
-
-        mediaRecorder.stop();
-
-    }
-
-}
 
         function addChatMessage(text, sender) {
             const msgDiv = document.createElement('div');
@@ -474,4 +567,5 @@ async function toggleVoice() {
         }
     </script>
 </body>
+
 </html>
