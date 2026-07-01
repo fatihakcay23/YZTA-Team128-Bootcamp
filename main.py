@@ -5,9 +5,10 @@ from groq import Groq
 import os
 from dotenv import load_dotenv
 import io
+from datetime import datetime
 
 # --- SENİN YAZDIĞIN VERİTABANI DOSYASINI İÇERİ AKTARIYORUZ ---
-from database import save_message
+from database import save_message, create_client, Client
 
 app = FastAPI(title="Yanımda Al - Yaşlı Refakatçi API")
 
@@ -21,6 +22,15 @@ app.add_middleware(
 
 load_dotenv()
 groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+
+
+SUPABASE_URL  = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+class TextChatRequest(BaseModel):
+    conversation_id: str
+    message: str
 
 # Pydantic Modelleri
 class CheckinModel(BaseModel):
@@ -53,7 +63,7 @@ GECERLI_UUID = "890f8eb3-2734-47d8-864a-df1a33f9a161"
 @app.post("/api/text-chat")
 async def text_chat(data: TextMessageModel):
     try:
-        print(f"\n>>>>>> YENİ MESAJ GELDİ: {data.message} <<<<<<\n")
+        # LOG print(f"\n>>>>>> YENİ MESAJ GELDİ: {data.message} <<<<<<\n")
         
         response = groq_client.chat.completions.create(
             model="llama-3.1-8b-instant",
@@ -144,6 +154,45 @@ async def voice_chat(file: UploadFile = File(...)):
         "response": ai_response,
         "message": ai_response
     }
+
+@app.get("/api/conversations")
+async def get_conversations():
+    try:
+        # Bu sefer content yerine created_at bilgisini çekiyoruz
+        response = supabase.table("messages").select("conversation_id, created_at").eq("role", "user").order("created_at", desc=True).execute()
+        
+        seen = set()
+        unique_conversations = []
+        for row in response.data:
+            c_id = row["conversation_id"]
+            if c_id not in seen:
+                seen.add(c_id)
+                
+                # Supabase'den gelen tarihi (2026-07-01T11:53:41...) parçalayıp okunabilir formata getiriyoruz
+                try:
+                    raw_date = row["created_at"].split("T")[0] # "2026-07-01" alır
+                    date_obj = datetime.strptime(raw_date, "%Y-%m-%d")
+                    formatted_date = date_obj.strftime("%d.%m.%Y") # "01.07.2026" yapar
+                except:
+                    formatted_date = "Bilinmeyen Tarih"
+
+                unique_conversations.append({
+                    "conversation_id": c_id, 
+                    "title": formatted_date # Artık başlık olarak tarih gidiyor
+                })
+        
+        return unique_conversations
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# 2. SEÇİLEN SOHBETİN DETAYINI GETİR
+@app.get("/api/conversations/{conversation_id}")
+async def get_chat_history(conversation_id: str):
+    try:
+        response = supabase.table("messages").select("role", "content").eq("conversation_id", conversation_id).order("created_at", desc=False).execute()
+        return response.data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/api/checkin")
